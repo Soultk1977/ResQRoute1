@@ -5,6 +5,11 @@ ResQRoute is an innovative and intelligent system designed to help emergency veh
 Project Overview
 ResQRoute is developed to solve the critical problem of emergency vehicle delays caused by traffic congestion. It provides a fully integrated solution by combining real-time data collection, ETA calculation, smart signal control, and a centralized dashboard to improve traffic flow for emergency vehicles.
 
+
+Deployed dashboard:
+[Live Demo](https://resqroute-dashboard.onrender.com/)
+
+
 Key features include:
 
 Live GPS tracking for emergency vehicles.
