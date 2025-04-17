@@ -5,7 +5,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import streamlit as st
 import pandas as pd
 import time
-from dashboard.components.vehicle_status import display_vehicle_status
+from components.vehicle_status import display_vehicle_status
 from components.signal_controls import display_signal_controls
 from backend.traffic_predictor import predict_traffic_density
 
