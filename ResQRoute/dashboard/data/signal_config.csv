@@ -1,0 +1,5 @@
+signal_id,location,status
+SIG001,Connaught Place,GREEN
+SIG002,Karol Bagh,RED
+SIG003,Rajiv Chowk,YELLOW
+SIG004,Rohini,RED

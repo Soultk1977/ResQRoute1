@@ -1,0 +1,5 @@
+vehicle_id,type,driver_name,status
+AMB001,Ambulance,Rajesh Kumar,Active
+FIRE001,Fire Truck,Sunil Verma,Active
+POL001,Police Car,Anita Sharma,Inactive
+AMB002,Ambulance,Santosh Shukla ,Inactive
