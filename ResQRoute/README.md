@@ -1,94 +1,268 @@
-ResQRoute - Smart Emergency Traffic Clearance System
 
-ResQRoute is an innovative and intelligent system that helps emergency vehicles like ambulances, fire trucks, and police cars navigate through traffic efficiently. Leveraging real-time data, AI, and GPS monitoring, ResQRoute aims at reducing response times, saving lives, and optimizing city traffic systems
+# 🚨 ResQRoute – Intelligent Emergency Response System
 
-Project Overview
-ResQRoute is aimed at solving the immediate problem of emergency vehicle delay caused by traffic congestion. It has an end-to-end integrated solution by merging real-time data aggregation, ETA calculation, smart signal control, and a centralized dashboard to manage traffic flow for emergency vehicles.
+ResQRoute is a real-time emergency response coordination platform that connects emergency vehicles, control rooms, and citizens. It aims to streamline the movement of emergency services by integrating smart routing, live signal mapping, and real-time notifications.
 
-Deployment link dashboard:
-[Live Demo](https://resqroute-dashboard.onrender.com/)
+---
 
-Main features are:
-Real-time GPS tracking of emergency vehicles.
+## 🔧 Features
 
-ETA calculation using real-time traffic information.
+### 👨‍💻 Citizen App
+- Raise emergency requests (Medical, Fire, Accident, Crime, Rescue)
+- Auto-detects current location via browser
+- Notifies nearby emergency vehicles in real time
+- Real-time status tracking of requests
 
-Intelligent signal override to open up routes for emergency vehicles.
+### 🚑 Driver Dashboard
+- View assigned emergency tasks
+- See live emergency route map with signal points
+- Receive navigation instructions to pickup/drop locations
+- Update task status (en route, arrived, completed)
 
-Emergency vehicle locator for the nearest fire station or hospital.
+### 🧠 Control Room Dashboard
+- Assign nearest vehicle based on location and availability
+- Override traffic signals for emergency vehicle movement
+- Live analytics on request types, average response time, and vehicle statuses
 
-Features
-Live GPS Tracking: Provides real-time tracking of emergency vehicle locations and dynamically adjusts the route.
+---
 
-ETA Calculation: Calculates the arrival times of emergency vehicles based on the Haversine formula with real-time traffic.
+## 🗃️ Tech Stack
 
-Smart Signal Control: Automatically controls traffic lights to offer a free path for emergency vehicles.
+- **Frontend**: Streamlit (for Citizen App & Dashboards)
+- **Backend**: Python
+- **Database**: MySQL
+- **Mapping**: Folium / Leaflet (Live Route & Signal Map)
+- **Charting**: Plotly, Streamlit charts
 
-Emergency Service Locator: Locates the nearest hospital or fire station based on vehicle type and location.
+---
 
-Real-Time Dashboard: A principal control dashboard for authorities to utilize to monitor and manage traffic and emergency vehicles.
-
-Installation
-Requirements
-Python 3.x
-
-Streamlit
-
-pandas
-
-numpy
-
-geopy
-
-scikit-learn
-
-Requests
-
-How It Works
-Data Collection: Emergency vehicle GPS information and traffic information is collected and updated constantly in real-time.
-
-ETA Calculation: The ETA of the emergency vehicle is calculated using the Haversine formula and real-time traffic prediction.
-
-Signal Override: The system communicates with city traffic signals and seamlessly switches them, giving the vehicle a clear road.
-
-Emergency Notification: Traffic officers and hospitals are alerted, letting them know the status and arrival estimation of the vehicle.
+## 🏗️ Project Structure
 
 ResQRoute/
+│
 ├── backend/
-│ ├── gps_tracker.py
-│ ├── eta_calculator.py
-│ ├── traffic_predictor.py
-│ ├── smart_signal.py
-│ ├── emergency_notifier.py
-│ └── utils/
-│ ├── data_handler.py
-│ └── api_connections.py
-├── dashboard/
-│ ├── app.py (Streamlit dashboard)
-│ └── components/
-│ ├── vehicle_status.py
-│ └── signal_controls.py
-├── data/
-│ ├── sample_vehicles.csv
-│ ├── traffic_data.csv
-│ └── signal_config.csv
-├── assets/
-│ ├── logo.png
-│ ├── icons/
-│ └── css/
-├── README.md
-└── requirements.txt
+│   ├── database.py               # MySQL connection and query handlers
+│   ├── emergency_utils.py        # Emergency finder and ETA logic
+│   └── signal_control.py         # Smart signal override logic
+│
+├── citizen_app/
+│   └── app.py                    # Citizen web interface
+│
+├── driver_dashboard/
+│   └── app.py                    # Emergency vehicle dashboard
+│
+├── admin_dashboard/
+│   └── app.py                    # Admin analytics dashboard
+│
+├── assets/                       # Custom icons, images, logos
+│
+├── data/                         # Sample CSVs if any fallback data is needed
+│
+├── requirements.txt              # All dependencies
+└── README.md                     # You're here :)
 
-Future Scope & Scalability
-Cross-City Integration: Integrate traffic management systems across various cities into one, national system.
+---
 
-AI-Powered Routing: Employ advanced machine learning algorithms to predict the best possible routes in real time.
+## 🛠️ Setup Instructions
 
-Mobile Application: Create a citizen app to alert drivers nearby when emergency vehicles are approaching, so they can yield.
+### 1. Clone the repository
+```bash
+git clone https://github.com/yourusername/ResQRoute.git
+cd ResQRoute
+```
 
-Drone-Assisted Navigation: Utilize drones to monitor and scan traffic flow, assisting emergency responders during congested traffic incidents.
+### 2. Install dependencies
+```bash
+pip install -r requirements.txt
+```
 
-Conclusion
-ResQRoute is a vital solution that seeks to reduce emergency response times by navigating through traffic congestion. With real-time intel and communication, ResQRoute improves safety, efficiency, and saves lives.
+### 3. Configure MySQL Database
 
-Team ResQRoute developed.
+Open `backend/database.py` and update the credentials:
+```python
+DB_CONFIG = {
+    'host': 'localhost',
+    'user': 'your_mysql_user',
+    'password': 'your_mysql_password',
+    'database': 'resqroute_db'
+}
+```
+
+Then Create the following Tables:
+
++---------------------+
+| Tables_in_resqroute |
++---------------------+
+| citizens            |
+| drivers             |
+| emergencies         |
+| signal_logs         |
+| signals             |
+| tasks               |
+| vehicles            |
++---------------------+
+
+1)citizens
+
++--------------+--------------+------+-----+-------------------+-------------------+
+| Field        | Type         | Null | Key | Default           | Extra             |
++--------------+--------------+------+-----+-------------------+-------------------+
+| id           | int          | NO   | PRI | NULL              | auto_increment    |
+| name         | varchar(255) | NO   |     | NULL              |                   |
+| phone        | varchar(15)  | YES  |     | NULL              |                   |
+| location_lat | double       | YES  |     | NULL              |                   |
+| location_lon | double       | YES  |     | NULL              |                   |
+| timestamp    | timestamp    | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++--------------+--------------+------+-----+-------------------+-------------------+
+
+2)drivers
+
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| id         | int          | NO   | PRI | NULL    | auto_increment |
+| name       | varchar(255) | NO   |     | NULL    |                |
+| vehicle_id | int          | YES  | MUL | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+
+3)emergencies
+
++-------------------+-------------+------+-----+-------------------+-------------------+
+| Field             | Type        | Null | Key | Default           | Extra             |
++-------------------+-------------+------+-----+-------------------+-------------------+
+| id                | int         | NO   | PRI | NULL              | auto_increment    |
+| citizen_id        | int         | YES  | MUL | NULL              |                   |
+| emergency_type    | varchar(50) | YES  |     | NULL              |                   |
+| requested_vehicle | varchar(50) | YES  |     | NULL              |                   |
+| location_lat      | double      | YES  |     | NULL              |                   |
+| location_lon      | double      | YES  |     | NULL              |                   |
+| timestamp         | timestamp   | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
+| status            | varchar(50) | YES  |     | Pending           |                   |
++-------------------+-------------+------+-----+-------------------+-------------------+
+
+4)signal_logs
+
++---------------+--------------+------+-----+-------------------+-------------------+
+| Field         | Type         | Null | Key | Default           | Extra             |
++---------------+--------------+------+-----+-------------------+-------------------+
+| id            | int          | NO   | PRI | NULL              | auto_increment    |
+| signal_id     | int          | YES  | MUL | NULL              |                   |
+| override_time | timestamp    | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
+| new_state     | varchar(10)  | YES  |     | NULL              |                   |
+| overridden_by | varchar(100) | YES  |     | NULL              |                   |
++---------------+--------------+------+-----+-------------------+-------------------+
+
+5)signals
+
++-----------------+-------------+------+-----+---------+----------------+
+| Field           | Type        | Null | Key | Default | Extra          |
++-----------------+-------------+------+-----+---------+----------------+
+| id              | int         | NO   | PRI | NULL    | auto_increment |
+| signal_code     | varchar(50) | NO   |     | NULL    |                |
+| location_lat    | double      | YES  |     | NULL    |                |
+| location_lon    | double      | YES  |     | NULL    |                |
+| current_state   | varchar(10) | YES  |     | RED     |                |
+| green_duration  | int         | YES  |     | 60      |                |
+| yellow_duration | int         | YES  |     | 5       |                |
+| red_duration    | int         | YES  |     | 55      |                |
+| last_override   | timestamp   | YES  |     | NULL    |                |
++-----------------+-------------+------+-----+---------+----------------+
+
+6)tasks
+
++--------------+-------------+------+-----+-------------------+-------------------+
+| Field        | Type        | Null | Key | Default           | Extra             |
++--------------+-------------+------+-----+-------------------+-------------------+
+| id           | int         | NO   | PRI | NULL              | auto_increment    |
+| emergency_id | int         | YES  | MUL | NULL              |                   |
+| driver_id    | int         | YES  | MUL | NULL              |                   |
+| assigned_at  | timestamp   | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
+| status       | varchar(50) | YES  |     | Assigned          |                   |
++--------------+-------------+------+-----+-------------------+-------------------+
+
+7)vehicles
+
++--------------+-------------+------+-----+-----------+----------------+
+| Field        | Type        | Null | Key | Default   | Extra          |
++--------------+-------------+------+-----+-----------+----------------+
+| id           | int         | NO   | PRI | NULL      | auto_increment |
+| vehicle_id   | varchar(50) | NO   |     | NULL      |                |
+| vehicle_type | varchar(50) | NO   |     | NULL      |                |
+| status       | varchar(50) | YES  |     | Available |                |
+| location_lat | double      | YES  |     | NULL      |                |
+| location_lon | double      | YES  |     | NULL      |                |
++--------------+-------------+------+-----+-----------+----------------+
+
+
+## 🚀 Run Apps
+
+### 1. Citizen App
+
+[Live Demo](https://resqroute-citizen.onrender.com/)
+
+
+### 2. Driver Dashboard
+
+[Live Demo](https://resqroute-driverdashboard.onrender.com/)
+
+
+### 3. Admin Dashboard
+
+[Live Demo](https://resqroute-admindashboard.onrender.com/)
+
+
+### 4. Control Room Dashboard
+
+[Live Demo](https://resqroute-controlroom.onrender.com/)
+
+## 📊 Admin Dashboard Analytics
+
+- Pie Chart of Emergency Types
+- Total Vehicles vs On Duty/Available
+- Smart Alerts for system errors
+- Real-time dashboard with task metrics and statuses
+
+---
+
+## 📦 Python Dependencies
+
+streamlit
+mysql-connector-python
+pandas
+folium
+geopy
+plotly
+numpy
+requests
+streamlit-folium
+```
+
+---
+
+## 💡 Future Improvements
+
+- Integration with Google Maps for more accurate routing
+- SMS/Email alerts to users
+- Mobile app version for drivers
+- Machine learning-based response prediction
+
+---
+
+## 👨‍🎓 Developed By
+
+**ResQRoute**  
+Member 1:
+Name: Tanmay Kumar Singh
+[LinkedIn](https://github.com/Soultk1977)  
+Email: soultk1977@gmail.com  
+Class: 12
+School: Rajkiya Pratibha Vikas Vidyalaya, Link Road, Karol Bagh, New Delhi
+
+Member 2:
+Name: Saubhagya Kumar Singh
+[LinkedIn](https://github.com/SirSaubhagya)
+Email: soulck1977@gmail.com
+Class: 9
+School: Rana Pratap (Sindhi) Sarvodaya Vidyalaya, R-Block , New Rajendra Nagar, New Delhi
+
+---
